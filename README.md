@@ -48,6 +48,9 @@ Access the Application:
 
 Open a browser and navigate to http://localhost:8080/
 ## PROGRAM
+
+```
+
 spring-mvc-demo/
 ├── src/
 │   └── main/
@@ -57,12 +60,14 @@ spring-mvc-demo/
 │       │       └── HomeController.java
 │       └── resources/
 │           ├── templates/
-│           │   └── index.html
+│           │   └── Welcome.html
 │           └── application.properties
 ├── pom.xml
 
-### pom.xml :
+```
 
+### pom.xml :
+```
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
@@ -94,9 +99,10 @@ spring-mvc-demo/
         </dependency>
     </dependencies>
 </project>
+```
 
 ### MvcApplication.java (Main Class):
-
+```
 package com.example.mvc;
 
 import org.springframework.boot.SpringApplication;
@@ -109,36 +115,86 @@ public class MvcApplication {
     }
 }
 
+```
 ### HomeController.java (Controller):
 
+```
 package com.example.mvc;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
 
 @Controller
-public class HomeController {
+public class demoController {
 
     @GetMapping("/")
-    public String homePage(Model model) {
-        model.addAttribute("message", "Welcome to Spring Boot MVC!");
-        return "index";  // refers to index.html in templates folder
+    public String test(Model model) {
+        model.addAttribute("Greeting", "Welcome to thymeleaf");
+        return "Welcome";
     }
 }
-### index.html (View – inside src/main/resources/templates/):
+```
 
+### Welcome.html (View – inside src/main/resources/templates/):
+
+```
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring MVC</title>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{style.css}">
 </head>
 <body>
-    <h1 th:text="${message}">Default Message</h1>
+<p id="demo"> Original Text</p>
+
+<button onclick="showMessage()">Click Me</button>
+<button onclick = "changeText()"> Change Text</button>
+<script th:src="@{script.js}"></script>
+<h1 th:text="${Greeting}">Welcome</h1>
 </body>
 </html>
+```
+### styles.css
+```
+body {
+    background-color: lightblue;
+}
 
+h1 {
+    color: darkblue;
+}
+```
+
+### Script.js
+```
+function showMessage() {
+    alert("Hello from JavaScript!");
+}
+
+function changeText() {
+    const element = document.getElementById("demo");
+
+    if (element) {
+        element.innerHTML = "Text Changed!";
+    } else {
+        console.log("Element not found");
+    }
+}
+```
 ### application.properties:
- server.port=8081
+server.port=8080
 
+# Thymeleaf configuration
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.mode=HTML
+spring.thymeleaf.encoding=UTF-8
+spring.thymeleaf.servlet.content-type=text/html
 
+## Output:
+<img width="1623" height="862" alt="1234" src="https://github.com/user-attachments/assets/929e41f5-d054-4e3d-a8ff-e14453333427" />
+
+## Result:
+A Simple Spring Boot MVC (Model-View-Controller) Application that uses a Controller to handle HTTP requests, a Model to pass data, and a View (Thymeleaf) to render dynamic HTML pages is developed.
